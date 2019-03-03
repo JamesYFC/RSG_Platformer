@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour, IResettable
     private float baseSpeed;
     [SerializeField]
     private float jumpForce;
+    [SerializeField]
+    private float superJumpMultiplier = 1.5f;
 
     [SerializeField]
     private float groundedCheckOffset = 0.1f;
