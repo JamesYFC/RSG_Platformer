@@ -18,16 +18,27 @@ public class GameController : SingletonMonoBehaviour<GameController>
     private int CurrentLives => gameState.Lives;
     private int CurrentScore => gameState.Score;
 
+    [SerializeField]
+    private List<CheckpointArea> checkpoints;
+    private Level currentLevel;
+
     public event EventHandler<ScoreChangedArgs> ScoreChanged;
     public event EventHandler<LivesChangedArgs> LivesChanged;
 
     public void Awake()
     {
         gameState = new GameState(startingLives);
+        currentLevel = new Level(checkpoints);
     }
 
     protected virtual void OnScoreChanged(object sender, ScoreChangedArgs e) => ScoreChanged?.Invoke(sender, e);
     protected virtual void OnLivesChanged(object sender, LivesChangedArgs e) => LivesChanged?.Invoke(sender, e);
+
+    public void CheckpointReached(int i) 
+    {
+        currentLevel.CheckpointReached(i);
+        player.SetStartPosition(currentLevel.CurrentSpawnPoint.position);
+    }
 
     public void AddScore(object source, int scoreToAdd)
     {
@@ -44,7 +55,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         if (CurrentLives > 0)
         {
-            // TODO: checkpoint restarts
+            currentLevel.CheckpointReset();
             player.ResetState();
             playerCamera.ResetState();
         }

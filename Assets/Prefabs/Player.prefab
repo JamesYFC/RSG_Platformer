@@ -98,10 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8afae0661d2ce40aac8d0738dadca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 4
   rb2D: {fileID: 7853805636720115732}
   coll2D: {fileID: 7853805636720115733}
-  baseSpeed: 4
   jumpForce: 6
+  superJumpMultiplier: 2
   groundedCheckOffset: 0.1
 --- !u!1 &7853805637271771100
 GameObject:

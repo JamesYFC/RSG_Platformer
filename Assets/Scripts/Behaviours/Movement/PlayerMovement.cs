@@ -2,35 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IResettable
+public class PlayerMovement : BasicMovement
 {
-    [SerializeField]
-    private Rigidbody2D rb2D;
     [SerializeField]
     private CapsuleCollider2D coll2D;
 
     [SerializeField]
-    private float baseSpeed;
-    [SerializeField]
     private float jumpForce;
     [SerializeField]
     private float superJumpMultiplier = 1.5f;
+    private SuperJumper superJumper;
 
     [SerializeField]
     private float groundedCheckOffset = 0.1f;
     private enum GroundedStates {None, Ground, BoostGround}
     private GroundedStates groundedState;
 
-    private Vector3 resetPosition;
-
-    private void Awake()
+    protected override void Awake()
     {
-        resetPosition = transform.position;
+        base.Awake();
+        superJumper = new SuperJumper(rb2D, jumpForce, superJumpMultiplier);
     }
 
     private void Update()
     {
-        //TODO: make custom inputmanager? so we don't have to type these in as strings all the time in behaviour scripts
         ApplyHorizontalMovement();
 
         if (Input.GetButtonDown("Jump"))
@@ -40,23 +35,13 @@ public class PlayerMovement : MonoBehaviour, IResettable
             switch (groundedState)
             {
                 case GroundedStates.Ground:
-                    Jump();
+                    superJumper.Jump();
                     break;
                 case GroundedStates.BoostGround:
-                    SuperJump();
+                    superJumper.SuperJump();
                     break;
             }
         }
-    }
-
-    private void Jump()
-    {
-        rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-    }
-
-    private void SuperJump()
-    {
-        rb2D.AddForce(Vector2.up * jumpForce * superJumpMultiplier, ForceMode2D.Impulse);
     }
 
     private void ApplyHorizontalMovement()
@@ -82,10 +67,14 @@ public class PlayerMovement : MonoBehaviour, IResettable
         }
         else return GroundedStates.None;
     }
-
-    public void ResetState()
+    public void SetStartPosition(Vector2 newStartPosition)
     {
+        startPosition = newStartPosition;
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
         rb2D.velocity = Vector2.zero;
-        transform.position = resetPosition;
     }
 }

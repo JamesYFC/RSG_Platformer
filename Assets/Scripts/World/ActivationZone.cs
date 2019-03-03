@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class ActivationZone : MonoBehaviour, IResettable
 {
-    private List<IActivatable> objectsToActivate;
+    private List<IActivatable> objectsToActivate = new List<IActivatable>();
     [SerializeField]
     private string tagToFind;
-
+ 
     private void Awake()
     {
-        objectsToActivate = new List<IActivatable>();
         if (objectsToActivate == null)
         {
             Debug.LogError("no objects to activate!");
@@ -50,13 +49,13 @@ public class ActivationZone : MonoBehaviour, IResettable
             activatable.Activate();
         }
     }
-
+ 
     public void ResetState()
     {
         DeactivateAll();
         gameObject.SetActive(true);
     }
-
+  
     private void DeactivateAll()
     {
         foreach (IActivatable activatable in objectsToActivate)

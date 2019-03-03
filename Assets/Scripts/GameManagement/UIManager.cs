@@ -12,17 +12,25 @@ public class UIManager : MonoBehaviour
     {
         if (lives == null) Debug.LogError("lives should not be nulL!");
         if (score == null) Debug.LogError("score should not be null!");
-        
-        GameController.Instance.LivesChanged += LivesChanged;
-        GameController.Instance.ScoreChanged += ScoreChanged;
     }
 
-    protected void LivesChanged(object sender, LivesChangedArgs e)
+    private void OnEnable()
+    {
+        GameController.Instance.LivesChanged += LivesChangedUpdate;
+        GameController.Instance.ScoreChanged += ScoreChangedUpdate;
+    }
+    private void OnDisable()
+    {
+        GameController.Instance.LivesChanged -= LivesChangedUpdate;
+        GameController.Instance.ScoreChanged -= ScoreChangedUpdate;
+    }
+
+    protected void LivesChangedUpdate(object sender, LivesChangedArgs e)
     {
         UpdateLives(e.NewLives);
     }
 
-    protected void ScoreChanged(object sender, ScoreChangedArgs e)
+    protected void ScoreChangedUpdate(object sender, ScoreChangedArgs e)
     {
         UpdateScore(e.NewScore);
     }

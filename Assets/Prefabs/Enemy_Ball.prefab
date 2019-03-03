@@ -111,9 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7618aff9e81253647a8f1256b1638906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 3
   rb2D: {fileID: 4301738654130869511}
   movementDirection: -1
-  startSpeed: 1
+  activationZone: {fileID: 0}
 --- !u!1 &4301738654300789295
 GameObject:
   m_ObjectHideFlags: 0
