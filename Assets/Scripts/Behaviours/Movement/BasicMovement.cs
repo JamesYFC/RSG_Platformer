@@ -1,31 +1,39 @@
-﻿using UnityEngine;
+﻿using RSGPlatformer.Game.Management;
+using UnityEngine;
 
-public abstract class BasicMovement : MonoBehaviour, IResettable
+namespace RSGPlatformer.Game.World
 {
-    protected Vector2 startPosition {get; set;}
-    [SerializeField]
-    protected float baseSpeed;
-    [SerializeField]
-    protected Rigidbody2D rb2D;
-
-    protected virtual void Awake()
+    /// <summary>
+    /// A base script for movement behaviours.
+    /// <summary>
+    public abstract class BasicMovement : MonoBehaviour, IResettable
     {
-        if (rb2D == null)
+        // return here on reset
+        protected Vector2 startPosition { get; set; }
+        [SerializeField]
+        protected float baseSpeed;
+        [SerializeField]
+        protected Rigidbody2D rb2D;
+
+        protected virtual void Awake()
         {
-            var foundRb2D = GetComponentInChildren<Rigidbody2D>();
-            if (foundRb2D != null)
+            if (rb2D == null)
             {
-                rb2D = foundRb2D;
+                var foundRb2D = GetComponentInChildren<Rigidbody2D>();
+                if (foundRb2D != null)
+                {
+                    rb2D = foundRb2D;
+                }
+                else Debug.LogError("rigidbody2D not found!");
             }
-            else Debug.LogError("rigidbody2D not found!");
+
+            startPosition = transform.position;
         }
 
-        startPosition = transform.position;
-    }
-
-    public virtual void ResetState()
-    {
-        transform.position = startPosition;
-        rb2D.velocity = Vector2.zero;
+        public virtual void ResetState()
+        {
+            transform.position = startPosition;
+            rb2D.velocity = Vector2.zero;
+        }
     }
 }

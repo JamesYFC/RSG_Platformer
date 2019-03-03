@@ -1,10 +1,13 @@
 ﻿using System;
 
-public class LivesChangedArgs : EventArgs
+namespace RSGPlatformer.Game.Management
 {
-    public int NewLives {get;}
-    public LivesChangedArgs(int newLives)
+    public class LivesChangedArgs : EventArgs
     {
-        NewLives = newLives;
+        public int NewLives { get; }
+        public LivesChangedArgs(int newLives)
+        {
+            NewLives = newLives;
+        }
     }
 }

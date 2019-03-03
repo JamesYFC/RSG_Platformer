@@ -1,24 +1,27 @@
-﻿/// <summary>
-/// This class keeps track of various core variables for the game state.
-/// </summary>
-public class GameState
+﻿namespace RSGPlatformer.Game.Management
 {
-    public int StartingLives {get;}
-    public int Lives {get; private set;}
-    public int Score {get; private set;}
-
-    public GameState(int startingLives)
+    /// <summary>
+    /// This class keeps track of various core variables for the game state.
+    /// </summary>
+    public class GameState
     {
-        StartingLives = startingLives;
-        Setup();
-    }
+        public int StartingLives { get; }
+        public int Lives { get; private set; }
+        public int Score { get; private set; }
 
-    public void Setup()
-    {
-        Lives = StartingLives;
-        Score = 0;
-    }
+        public GameState(int startingLives)
+        {
+            StartingLives = startingLives;
+            Setup();
+        }
 
-    public void AddScore(int scoreToAdd) => Score += scoreToAdd;
-    public void LoseLife() => Lives--;
+        public void Setup()
+        {
+            Lives = StartingLives;
+            Score = 0;
+        }
+
+        public void AddScore(int scoreToAdd) => Score += scoreToAdd;
+        public void LoseLife() => Lives--;
+    }
 }

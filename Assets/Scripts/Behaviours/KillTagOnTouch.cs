@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillTagOnTouch : MonoBehaviour
+namespace RSGPlatformer.Game.World
 {
-    [SerializeField]
-    private string tagToKill;
-    
-    void OnCollisionEnter2D(Collision2D collisionInfo)
+    public class KillTagOnTouch : MonoBehaviour
     {
-        GameObject collidedObject = collisionInfo.gameObject;
-        if (collidedObject.tag != tagToKill) return;
+        [SerializeField]
+        private string tagToKill;
 
-        IKillable killable = collidedObject.GetComponent<IKillable>();
-        if (killable != null)
+        void OnCollisionEnter2D(Collision2D collisionInfo)
         {
-            killable.Die(gameObject);
+            GameObject collidedObject = collisionInfo.gameObject;
+            if (collidedObject.tag != tagToKill) return;
+
+            IKillable killable = collidedObject.GetComponent<IKillable>();
+            if (killable != null)
+            {
+                killable.Die(gameObject);
+            }
         }
     }
 }

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IActivatable
+namespace RSGPlatformer.Game
 {
-    bool Activated {get;}
-    void Activate();
-    void Deactivate();
+    public interface IActivatable
+    {
+        bool Activated { get; }
+        void Activate();
+        void Deactivate();
+    }
 }

@@ -1,33 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
+namespace RSGPlatformer
 {
-    private static T _instance;
-    public static T Instance
+    public class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
     {
-        get
+        private static T _instance;
+        public static T Instance
         {
-            if (_instance == null)
+            get
             {
-                T foundInstance = GameObject.FindObjectOfType<T>() as T;
-                if (foundInstance != null)
+                if (_instance == null)
                 {
-                    _instance = foundInstance;
-                    return _instance;
+                    T foundInstance = GameObject.FindObjectOfType<T>() as T;
+                    if (foundInstance != null)
+                    {
+                        _instance = foundInstance;
+                        return _instance;
+                    }
+                    else
+                    {
+                        Debug.LogError("No instance of " + typeof(T).ToString() + " found!");
+                        return default(T);
+                    }
                 }
                 else
                 {
-                    Debug.LogError("No instance of " + typeof(T).ToString() + " found!");
-                    return default(T);
+                    return _instance;
                 }
             }
-            else
-            {
-                return _instance;
-            }
+            private set => _instance = value;
         }
-        private set => _instance = value;
     }
 }

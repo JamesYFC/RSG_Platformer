@@ -1,10 +1,13 @@
 ﻿using System;
 
-public class ScoreChangedArgs : EventArgs
+namespace RSGPlatformer.Game.Management
 {
-    public int NewScore {get;}
-    public ScoreChangedArgs(int newScore)
+    public class ScoreChangedArgs : EventArgs
     {
-        NewScore = newScore;
+        public int NewScore { get; }
+        public ScoreChangedArgs(int newScore)
+        {
+            NewScore = newScore;
+        }
     }
 }

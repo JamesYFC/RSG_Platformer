@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using RSGPlatformer.Game.Management;
 using UnityEngine;
 
-public class ScorePickup : MonoBehaviour
+namespace RSGPlatformer.Game.World
 {
-    [SerializeField]
-    private int scoreGained;
-    private void OnTriggerEnter2D(Collider2D other)
+    public class ScorePickup : BasicTriggerEffect
     {
-        if (other.gameObject.CompareTag("Player"))
+        [SerializeField]
+        private int scoreGained;
+
+        protected override void TriggerEffect(Collider2D other)
         {
             GameController.Instance.AddScore(this, scoreGained);
             gameObject.SetActive(false);

@@ -1,66 +1,57 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using RSGPlatformer.Game.Management;
 using UnityEngine;
 
-public class ActivationZone : MonoBehaviour, IResettable
+namespace RSGPlatformer.Game.World
 {
-    private List<IActivatable> objectsToActivate = new List<IActivatable>();
-    [SerializeField]
-    private string tagToFind;
- 
-    private void Awake()
+    public class ActivationZone : BasicTriggerEffect, IResettable
     {
-        if (objectsToActivate == null)
+        private List<IActivatable> objectsToActivate = new List<IActivatable>();
+
+        private void Awake()
         {
-            Debug.LogError("no objects to activate!");
+            if (objectsToActivate == null)
+            {
+                Debug.LogError("no objects to activate!");
+            }
         }
 
-        if (tagToFind == null || tagToFind == "")
+        private void Start()
         {
-            Debug.LogError("tag to find not specified!");
+            DeactivateAll();
         }
-    }
 
-    private void Start()
-    {
-        DeactivateAll();
-    }
-
-    public void AddActivatable(IActivatable activatable)
-    {
-        objectsToActivate.Add(activatable);
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("trigger entered");
-        if (other.gameObject.CompareTag(tagToFind))
+        protected override void TriggerEffect(Collider2D other)
         {
-            Debug.Log("correct tag found");
             ActivateAll();
             gameObject.SetActive(false);
         }
-    }
 
-    private void ActivateAll()
-    {
-        foreach (IActivatable activatable in objectsToActivate)
+        public void AddActivatable(IActivatable activatable)
         {
-            activatable.Activate();
+            objectsToActivate.Add(activatable);
         }
-    }
- 
-    public void ResetState()
-    {
-        DeactivateAll();
-        gameObject.SetActive(true);
-    }
-  
-    private void DeactivateAll()
-    {
-        foreach (IActivatable activatable in objectsToActivate)
+
+        private void ActivateAll()
         {
-            activatable.Deactivate();
+            foreach (IActivatable activatable in objectsToActivate)
+            {
+                activatable.Activate();
+            }
+        }
+
+        public void ResetState()
+        {
+            DeactivateAll();
+            gameObject.SetActive(true);
+        }
+
+        private void DeactivateAll()
+        {
+            foreach (IActivatable activatable in objectsToActivate)
+            {
+                activatable.Deactivate();
+            }
         }
     }
 }

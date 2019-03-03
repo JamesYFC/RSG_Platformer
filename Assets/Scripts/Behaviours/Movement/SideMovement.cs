@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SideMovement : BasicActivatableMovement
+namespace RSGPlatformer.Game.World
 {
-    [SerializeField]
-    private LRSides movementDirection;
-
-    protected virtual void FixedUpdate()
+    public class SideMovement : BasicActivatableMovement
     {
-        if (Activated)
-            SetVelocity();
-    }
+        [SerializeField]
+        private LRSides movementDirection;
 
-    private void SetVelocity()
-    {
-        rb2D.velocity = new Vector2((int)movementDirection * baseSpeed, rb2D.velocity.y);
+        protected virtual void FixedUpdate()
+        {
+            if (Activated)
+                SetVelocity();
+        }
+
+        private void SetVelocity()
+        {
+            rb2D.velocity = new Vector2((int)movementDirection * baseSpeed, rb2D.velocity.y);
+        }
+
     }
- 
 }

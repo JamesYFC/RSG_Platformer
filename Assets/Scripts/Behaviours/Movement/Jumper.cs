@@ -1,19 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Jumper
+namespace RSGPlatformer.Game.World
 {
-    protected Rigidbody2D rb2D {get;}
-    protected float jumpForce {get;}
-    public Jumper(Rigidbody2D rb2D, float initialJumpForce)
+    /// <summary>
+    /// A class to define jumping behaviour.
+    /// </summary>
+    public class Jumper
     {
-        this.rb2D = rb2D;
-        jumpForce = initialJumpForce;
-    }
+        protected Rigidbody2D rb2D { get; }
+        protected float jumpForce { get; }
+        public Jumper(Rigidbody2D rb2D, float initialJumpForce)
+        {
+            this.rb2D = rb2D;
+            jumpForce = initialJumpForce;
+        }
 
-    public void Jump()
-    {
-        rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        public void Jump()
+        {
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
     }
 }

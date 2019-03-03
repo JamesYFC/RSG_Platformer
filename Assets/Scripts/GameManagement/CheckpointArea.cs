@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class CheckpointArea
+namespace RSGPlatformer.Game.World
 {
-    [SerializeField]
-    private List<ActivationZone> checkpointZones;
-    [SerializeField]
-    private Transform _spawnPoint;
-    public Transform SpawnPoint => _spawnPoint;
-    public void ResetZones()
+    [Serializable]
+    public class CheckpointArea
     {
-        foreach (var activationZone in checkpointZones)
+        [SerializeField]
+        private List<ActivationZone> activationZones;
+        [SerializeField]
+        private Checkpoint _checkPoint;
+        public Checkpoint Checkpoint => _checkPoint;
+        public void ResetZones()
         {
-            activationZone.ResetState();
+            foreach (var activationZone in activationZones)
+            {
+                activationZone.ResetState();
+            }
         }
     }
-
-    
 }

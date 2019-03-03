@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IKillable
+namespace RSGPlatformer.Game
 {
-    void Die(GameObject source);
+    public interface IKillable
+    {
+        void Die(GameObject source);
+    }
 }

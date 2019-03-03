@@ -1,27 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CleanupZone : MonoBehaviour
+namespace RSGPlatformer.Game.World
 {
-    private HashSet<GameObject> searchedInvalids;
-    private void Awake()
+    public class CleanupZone : MonoBehaviour
     {
-        searchedInvalids = new HashSet<GameObject>();
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (searchedInvalids.Contains(other.gameObject))
-            return;
-
-        IActivatable foundActivatable = other.gameObject.GetComponentInChildren<IActivatable>();
-        if (foundActivatable != null)
+        private HashSet<GameObject> searchedInvalids;
+        private void Awake()
         {
-            foundActivatable.Deactivate(); 
+            searchedInvalids = new HashSet<GameObject>();
         }
-        else
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            searchedInvalids.Add(other.gameObject);
+            if (searchedInvalids.Contains(other.gameObject))
+                return;
+
+            IActivatable foundActivatable = other.gameObject.GetComponentInChildren<IActivatable>();
+            if (foundActivatable != null)
+            {
+                foundActivatable.Deactivate();
+            }
+            else
+            {
+                searchedInvalids.Add(other.gameObject);
+            }
         }
     }
 }

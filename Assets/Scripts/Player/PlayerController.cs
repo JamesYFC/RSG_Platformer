@@ -1,21 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using RSGPlatformer.Game.Management;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IKillable, IResettable
+namespace RSGPlatformer.Game.World
 {
-    [SerializeField]
-    private PlayerMovement playerMovement;
-
-    public void SetStartPosition(Vector2 position) => playerMovement.SetStartPosition(position);
-    public void Die(GameObject source)
+    public class PlayerController : MonoBehaviour, IKillable, IResettable
     {
-        Debug.Log("I am dead!");
-        GameController.Instance.PlayerDied(source);
-    }
+        [SerializeField]
+        private PlayerMovement playerMovement;
 
-    public void ResetState()
-    {
-        playerMovement.ResetState();
+        public void SetStartPosition(Vector2 position) => playerMovement.SetStartPosition(position);
+        public void Die(GameObject source)
+        {
+            Debug.Log("I am dead!");
+            GameController.Instance.PlayerDied(source);
+        }
+
+        public void ResetState()
+        {
+            playerMovement.ResetState();
+        }
     }
 }
