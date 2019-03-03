@@ -7,10 +7,10 @@ public class PlayerController : MonoBehaviour, IKillable, IResettable
     [SerializeField]
     private PlayerMovement playerMovement;
 
-    public void Die()
+    public void Die(GameObject source)
     {
         Debug.Log("I am dead!");
-        GameController.Instance.PlayerDied();
+        GameController.Instance.PlayerDied(source);
     }
 
     public void ResetState()

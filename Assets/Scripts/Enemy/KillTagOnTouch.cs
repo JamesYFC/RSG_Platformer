@@ -10,19 +10,12 @@ public class KillTagOnTouch : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collisionInfo)
     {
         GameObject collidedObject = collisionInfo.gameObject;
-        Debug.Log("collided with " + collidedObject);
-
-        if (collidedObject.tag != tagToKill)
-        {
-            Debug.Log("wrong tag");
-            return;
-        }
+        if (collidedObject.tag != tagToKill) return;
 
         IKillable killable = collidedObject.GetComponent<IKillable>();
-
         if (killable != null)
         {
-            killable.Die();
+            killable.Die(gameObject);
         }
     }
 }

@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour, IResettable
 
     [SerializeField]
     private float groundedCheckOffset = 0.1f;
-    private bool grounded;
+    private enum GroundedStates {None, Ground, BoostGround}
+    private GroundedStates groundedState;
 
     private Vector3 resetPosition;
 
@@ -34,11 +35,16 @@ public class PlayerMovement : MonoBehaviour, IResettable
 
         if (Input.GetButtonDown("Jump"))
         {
-            GroundedCheck();
-            if (grounded)
+            groundedState = GroundedCheck();
+
+            switch (groundedState)
             {
-                Jump();
-                grounded = false;
+                case GroundedStates.Ground:
+                    Jump();
+                    break;
+                case GroundedStates.BoostGround:
+                    SuperJump();
+                    break;
             }
         }
     }
@@ -48,18 +54,35 @@ public class PlayerMovement : MonoBehaviour, IResettable
         rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
+    private void SuperJump()
+    {
+        rb2D.AddForce(Vector2.up * jumpForce * superJumpMultiplier, ForceMode2D.Impulse);
+    }
+
     private void ApplyHorizontalMovement()
     {
         rb2D.velocity = new Vector2(Input.GetAxis("Horizontal") * baseSpeed, rb2D.velocity.y);
     }
 
-    private void GroundedCheck()
+    // return the resulting ground gameobject
+    private GroundedStates GroundedCheck()
     {
         // perform a capsule overlap of the same size as the player's collider, but slightly below the player   
         Vector2 capsuleOverlapPoint = new Vector2(coll2D.bounds.center.x, coll2D.bounds.center.y - groundedCheckOffset);
+        
         Collider2D result = Physics2D.OverlapCapsule(capsuleOverlapPoint, coll2D.size, coll2D.direction, 0, LayerMask.GetMask("World"));
-        grounded = (result != null);
+        
+        if (result != null)
+        {
+            if (result.gameObject.CompareTag("JumpBoost"))
+            {
+                return GroundedStates.BoostGround;
+            }
+            else return GroundedStates.Ground;
+        }
+        else return GroundedStates.None;
     }
+
     public void ResetState()
     {
         rb2D.velocity = Vector2.zero;

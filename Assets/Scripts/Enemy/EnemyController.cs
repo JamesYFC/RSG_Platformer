@@ -5,9 +5,12 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour, IKillable
 {
     [SerializeField]
-    private int killScore;
-    public virtual void Die()
+    private int killScore = 50;
+
+    public virtual void Die(GameObject source)
     {
-        GameController.Instance.AddScore(killScore);
+        GameController.Instance.AddScore(this, killScore);
     }
+
+    
 }
